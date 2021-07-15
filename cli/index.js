@@ -34,7 +34,7 @@ async function showQuestion(index, question, id, wrong) {
       {
         type: "input",
         name: "answer",
-        message: (wrong ? 'Wrong! Try again. ' : '') + question,
+        message: (wrong ? "Wrong! Try again. " : "") + question,
       },
     ])
     .then((answers) => {
@@ -68,6 +68,36 @@ async function showQuestion(index, question, id, wrong) {
     `https://marathon-api.hackclub.dev/question?id=${id}&answer=${answer}`
   ).then((r) => r.json());
   blankScreen();
+  if (checkResponse.complete) {
+    await figlet(
+      `YOU'VE`,
+      {
+        font: "ANSI Regular",
+      },
+      function (err, data) {
+        if (err) {
+          console.log(`You've`);
+        }
+        console.log(chalk.green(data));
+      }
+    );
+    await figlet(
+      `DONE IT!`,
+      {
+        font: "ANSI Regular",
+      },
+      function (err, data) {
+        if (err) {
+          console.log(`Done It!`);
+        }
+        console.log(chalk.green(data));
+      }
+    );
+    console.log(
+      chalk.green(`The marathon was completed in ${checkResponse.seconds}`)
+    );
+    return;
+  }
   if (checkResponse.correct) {
     await showQuestion(checkResponse.index, checkResponse.question, id);
   } else {
@@ -134,6 +164,15 @@ async function main() {
   if (startResponse.error) {
     console.log(chalk.red("\nError! " + startResponse.error + "\n"));
     return;
+  }
+  if (startResponse.complete) {
+    console.log(
+      chalk.green(
+        "\nHey " +
+          startResponse.user["Participant Name"] +
+          "! You've already completed the marathon, nice work!\n"
+      )
+    );
   }
   if (startResponse.starting) {
     console.log(

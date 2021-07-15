@@ -51,6 +51,7 @@ export default async function handler(req, res) {
       res.json({
         complete: true,
         correct: true,
+        seconds: updatedRacerRecord.fields["Last Seconds Started"],
         user: updatedRacerRecord.fields
       });
     } else {
