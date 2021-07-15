@@ -68,6 +68,7 @@ export default async function handler(req, res) {
             racerRecord.fields["Seconds Passed"] +
             (+new Date() - racerRecord.fields["Last Seconds Started"]),
         });
+        console.log(updatedRacerRecord2)
         res.json({
           correct: true,
           paused: true,
