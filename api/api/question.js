@@ -40,7 +40,7 @@ export default async function handler(req, res) {
       maxRecords: 1,
     })
   )[0];
-  if (answeredQuestion.fields["Answer String"].includes(answer)) {
+  if (answer.includes(answeredQuestion.fields["Answer String"])) {
     if (racerRecord.fields["Current Position"] == 30) {
       const updatedRacerRecord = await marathonTrack.update(racerRecord.id, {
         Complete: true,

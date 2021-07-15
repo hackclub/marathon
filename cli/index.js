@@ -15,7 +15,7 @@ function blankScreen() {
   readline.clearScreenDown(process.stdout); // Clears the screen and make it blank
 }
 
-async function showQuestion(index) {
+async function showQuestion(index, question, id, wrong) {
   await figlet(
     `Stage ${index}`,
     {
@@ -25,9 +25,55 @@ async function showQuestion(index) {
       if (err) {
         console.log(`Stage ${index}`);
       }
-      console.log(chalk.blue(data));
+      console.log(wrong ? chalk.red(data) : chalk.blue(data));
     }
   );
+  await sleep(500);
+  const { answer } = await inquirer
+    .prompt([
+      {
+        type: "input",
+        name: "answer",
+        message: (wrong ? 'Wrong! Try again. ' : '') + question,
+      },
+    ])
+    .then((answers) => {
+      return answers;
+    })
+    .catch((error) => {
+      if (error.isTtyError) {
+        console.log(
+          "This terminal does not support this tool, please try another"
+        );
+        throw error;
+      } else {
+        console.log("Error!");
+        throw error;
+      }
+    });
+  blankScreen();
+  await figlet(
+    `Checking`,
+    {
+      font: "ANSI Regular",
+    },
+    function (err, data) {
+      if (err) {
+        console.log(`Checking`);
+      }
+      console.log(chalk.cyan(data));
+    }
+  );
+  let checkResponse = await fetch(
+    `https://marathon-api.hackclub.dev/question?id=${id}&answer=${answer}`
+  ).then((r) => r.json());
+  blankScreen();
+  if (checkResponse.correct) {
+    await showQuestion(checkResponse.index, checkResponse.question, id);
+  } else {
+    await showQuestion(index, question, id, true);
+  }
+  console.log(checkResponse);
 }
 
 blankScreen();
@@ -100,8 +146,7 @@ async function main() {
   }
   await sleep(2000);
   blankScreen();
-  console.log(startResponse)
-  await showQuestion(startResponse.index);
+  await showQuestion(startResponse.index, startResponse.question, id);
 }
 
 main();
