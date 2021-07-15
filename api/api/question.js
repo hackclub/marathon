@@ -65,9 +65,9 @@ export default async function handler(req, res) {
       if (req.query.pause) {
         const updatedRacerRecord2 = await marathonTrack.update(racerRecord.id, {
           "Seconds Passed":
-            racerRecord.fields["Seconds Passed"] +
             (+new Date() - racerRecord.fields["Last Seconds Started"]),
         });
+        
         console.log(updatedRacerRecord2)
         res.json({
           correct: true,
