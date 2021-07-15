@@ -65,6 +65,7 @@ export default async function handler(req, res) {
     res.json({
       question: question[0].fields.Question,
       user: racerRecord.fields,
+      index: racerRecord.fields["Current Position"],
       starting: false,
     });
   }
