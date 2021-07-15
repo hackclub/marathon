@@ -5,5 +5,10 @@
   "main": "index.js",
   "repository": "https://github.com/hackclub/marathon",
   "author": "@sampoder",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^4.1.1",
+    "gradient-string": "^1.2.0",
+    "inquirer": "^8.1.2"
+  }
 }
