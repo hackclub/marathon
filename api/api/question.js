@@ -52,7 +52,7 @@ export default async function handler(req, res) {
         complete: true,
         correct: true,
         seconds: updatedRacerRecord.fields["Last Seconds Started"],
-        user: updatedRacerRecord.fields
+        user: updatedRacerRecord.fields,
       });
     } else {
       const updatedRacerRecord = await marathonTrack.update(racerRecord.id, {
@@ -62,10 +62,22 @@ export default async function handler(req, res) {
         filterByFormula: `{Number} = "${updatedRacerRecord.fields["Current Position"]}"`,
         maxRecords: 1,
       });
+      if (req.query.pause) {
+        const updatedRacerRecord2 = await marathonTrack.update(racerRecord.id, {
+          "Seconds Passed":
+            racerRecord.fields["Seconds Passed"] +
+            (+new Date() - racerRecord.fields["Last Seconds Started"]),
+        });
+        res.json({
+          correct: true,
+          paused: true,
+        });
+        return;
+      }
       res.json({
         question: question[0].fields.Question,
         correct: true,
-        index: updatedRacerRecord.fields["Current Position"]
+        index: updatedRacerRecord.fields["Current Position"],
       });
     }
   } else {

@@ -65,7 +65,9 @@ async function showQuestion(index, question, id, wrong) {
     }
   );
   let checkResponse = await fetch(
-    `https://marathon-api.hackclub.dev/question?id=${id}&answer=${answer}`
+    `https://marathon-api.hackclub.dev/question?id=${id}&answer=${answer.replace(
+      "--pause"
+    )}${answer.includes("--pause") ? "&pause=true" : ""}`
   ).then((r) => r.json());
   blankScreen();
   if (checkResponse.complete) {
@@ -94,8 +96,14 @@ async function showQuestion(index, question, id, wrong) {
       }
     );
     console.log(
-      chalk.green(`The marathon was completed in ${checkResponse.seconds}`)
+      chalk.green(
+        `The marathon was completed in ${checkResponse.seconds} seconds.`
+      )
     );
+    return;
+  }
+  if (checkResponse.correct && checkResponse.paused) {
+    console.log(chalk.green(`You got it! I've paused the marathon for you.`));
     return;
   }
   if (checkResponse.correct) {
@@ -103,7 +111,6 @@ async function showQuestion(index, question, id, wrong) {
   } else {
     await showQuestion(index, question, id, true);
   }
-  console.log(checkResponse);
 }
 
 blankScreen();
@@ -173,6 +180,7 @@ async function main() {
           "! You've already completed the marathon, nice work!\n"
       )
     );
+    return;
   }
   if (startResponse.starting) {
     console.log(
