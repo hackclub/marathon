@@ -25,7 +25,7 @@ export default async function handler(req, res) {
     maxRecords: 1,
   });
   if (participantExistsCheck.length === 0) {
-    res.status(404).json({ error: "Participant not found" });
+    res.status(404).json({ error: "Participant not found." });
     return;
   }
   const startedAlreadyCheck = await marathonTrack.read({

@@ -2,6 +2,7 @@ const readline = require("readline");
 const gradient = require("gradient-string");
 const chalk = require("chalk");
 const inquirer = require("inquirer");
+const fetch = require("node-fetch");
 
 function blankScreen() {
   // Function that we'll use to show simply a blank screen
@@ -61,7 +62,11 @@ async function main() {
         throw error;
       }
     });
-  let startResponse = await fetch().then(r => r.json()); 
+  let startResponse = await fetch(`https://marathon-api.hackclub.dev/start?id=${id}`).then(r => r.json()); 
+  if(startResponse.error){
+    console.log(chalk.red('\nError! ' + startResponse.error + '\n'));
+    return;
+  }
 }
 
 main();
