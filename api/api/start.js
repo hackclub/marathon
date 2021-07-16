@@ -35,7 +35,7 @@ export default async function handler(req, res) {
   if (startedAlreadyCheck[0] === undefined) {
     const racerRecord = await marathonTrack.create({
       "Related Participant": [id],
-      "Last Seconds Started": +new Date(),
+      "Last Seconds Started": (new Date().valueOf() / 1000),
       "Current Position": 1,
     });
     const question = await marathonHurdles.read({
@@ -50,6 +50,7 @@ export default async function handler(req, res) {
     });
   } else {
     const racerRecord = startedAlreadyCheck[0];
+    console.log(((new Date().valueOf() / 1000) - racerRecord.fields["Last Seconds Started"]))
     if (racerRecord.fields["Complete"] == true) {
       res.json({
         user: racerRecord.fields,
@@ -62,6 +63,8 @@ export default async function handler(req, res) {
       filterByFormula: `{Number} = "${racerRecord.fields["Current Position"]}"`,
       maxRecords: 1,
     });
+    console.log((new Date().valueOf() / 1000))
+    console.log(((new Date().valueOf() / 1000) - racerRecord.fields["Last Seconds Started"]))
     res.json({
       question: question[0].fields.Question,
       user: racerRecord.fields,

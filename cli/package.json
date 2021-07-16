@@ -1,11 +1,21 @@
 {
   "name": "@hackclub/marathon",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "NPX script that powers the Hacker Games Marathon!",
   "main": "index.js",
   "repository": "https://github.com/hackclub/marathon",
   "author": "@sampoder",
   "license": "MIT",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "marathon": "./index.js"
+  },
+  "bugs": {
+    "url": "https://github.com/hackclub/marathon/issues"
+  },
+  "homepage": "https://github.com/hackclub/marathon#readme",
   "dependencies": {
     "chalk": "^4.1.1",
     "figlet": "^1.5.0",

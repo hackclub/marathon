@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const readline = require("readline");
 const gradient = require("gradient-string");
 const chalk = require("chalk");
@@ -28,7 +30,11 @@ async function showQuestion(index, question, id, wrong) {
       console.log(wrong ? chalk.red(data) : chalk.blue(data));
     }
   );
-  await sleep(500);
+  await sleep(200);
+  console.log(
+    "Append --pause to pause the marathon and type skip to skip the question (will add 5 minutes to your time) \n"
+  );
+  await sleep(300);
   const { answer } = await inquirer
     .prompt([
       {
@@ -67,7 +73,9 @@ async function showQuestion(index, question, id, wrong) {
   let checkResponse = await fetch(
     `https://marathon-api.hackclub.dev/question?id=${id}&answer=${answer.replace(
       "--pause"
-    )}${answer.includes("--pause") ? "&pause=true" : ""}`
+    )}${answer.includes("--pause") ? "&pause=true" : ""}${
+      answer.replace("--pause", "").trim() == "skip" ? "&skip=true" : ""
+    }`
   ).then((r) => r.json());
   blankScreen();
   if (checkResponse.complete) {

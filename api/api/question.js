@@ -46,7 +46,7 @@ export default async function handler(req, res) {
         Complete: true,
         "Seconds Passed":
           racerRecord.fields["Seconds Passed"] +
-          (+new Date() - racerRecord.fields["Last Seconds Started"]),
+          ((new Date().valueOf() / 1000)- racerRecord.fields["Last Seconds Started"]),
       });
       res.json({
         complete: true,
@@ -66,7 +66,7 @@ export default async function handler(req, res) {
         const updatedRacerRecord2 = await marathonTrack.update(racerRecord.id, {
           "Seconds Passed":
             (racerRecord.fields["Seconds Passed"] ? racerRecord.fields["Seconds Passed"]: 0) +
-            (+new Date() - racerRecord.fields["Last Seconds Started"]),
+            ((new Date().valueOf() / 1000) - racerRecord.fields["Last Seconds Started"]),
         });
         
         console.log(updatedRacerRecord2)
