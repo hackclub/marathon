@@ -40,13 +40,13 @@ export default async function handler(req, res) {
       maxRecords: 1,
     })
   )[0];
-  if (answer.toUpperCase().includes(answeredQuestion.fields["Answer String"].toUpperCase())) {
+  if (answer.toUpperCase().includes(answeredQuestion.fields["Answer String"].toUpperCase()) || req.query.skip) {
     if (racerRecord.fields["Current Position"] == 30) {
       const updatedRacerRecord = await marathonTrack.update(racerRecord.id, {
         Complete: true,
         "Seconds Passed":
-          racerRecord.fields["Seconds Passed"] +
-          ((new Date().valueOf() / 1000)- racerRecord.fields["Last Seconds Started"]),
+          racerRecord.fields["Seconds Passed"] + racerRecord.fields["Skipped"] +
+          ((new Date().valueOf() / 1000)- racerRecord.fields["Last Seconds Started"]) + req.query.skip ? (60 * 5) : 0,
       });
       res.json({
         complete: true,
@@ -56,6 +56,7 @@ export default async function handler(req, res) {
       });
     } else {
       const updatedRacerRecord = await marathonTrack.update(racerRecord.id, {
+        "Skipped": racerRecord.fields["Skipped"] + req.query.skip ? (60 * 5) : 0,
         "Current Position": racerRecord.fields["Current Position"] + 1,
       });
       const question = await marathonHurdles.read({
