@@ -59,13 +59,13 @@ async function showQuestion(index, question, id, wrong) {
     });
   blankScreen();
   await figlet(
-    `Checking`,
+    answer.replace("--pause", "").trim() == "skip" ? "Skipping" : `Checking`,
     {
       font: "ANSI Regular",
     },
     function (err, data) {
       if (err) {
-        console.log(`Checking`);
+        console.log(answer.replace("--pause", "").trim() == "skip" ? "Skipping" : `Checking`,);
       }
       console.log(chalk.cyan(data));
     }
