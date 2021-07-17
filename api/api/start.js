@@ -37,7 +37,8 @@ export default async function handler(req, res) {
       "Related Participant": [id],
       "Last Seconds Started": (new Date().valueOf() / 1000),
       "Current Position": 1,
-      "Skipped": 0
+      "Skipped": 0,
+      "Seconds Passed": 0
     });
     const question = await marathonHurdles.read({
       filterByFormula: `{Number} = "1"`,
