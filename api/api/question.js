@@ -65,7 +65,6 @@ export default async function handler(req, res) {
       });
       if (req.query.pause) {
         const updatedRacerRecord2 = await marathonTrack.update(racerRecord.id, {
-          "Last Seconds Started": (new Date().valueOf() / 1000),
           "Seconds Passed":
             (racerRecord.fields["Seconds Passed"] ? racerRecord.fields["Seconds Passed"]: 0) +
             ((new Date().valueOf() / 1000) - racerRecord.fields["Last Seconds Started"]),

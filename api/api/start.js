@@ -52,6 +52,10 @@ export default async function handler(req, res) {
     });
   } else {
     const racerRecord = startedAlreadyCheck[0];
+    const updatedRacerRecord2 = await marathonTrack.update(racerRecord.id, {
+      "Last Seconds Started": (new Date().valueOf() / 1000),
+    });
+    
     console.log(((new Date().valueOf() / 1000) - racerRecord.fields["Last Seconds Started"]))
     if (racerRecord.fields["Complete"] == true) {
       res.json({
