@@ -41,7 +41,7 @@ export default async function handler(req, res) {
     })
   )[0];
   if (answer.toUpperCase().includes(answeredQuestion.fields["Answer String"].toUpperCase()) || req.query.skip) {
-    if (racerRecord.fields["Current Position"] == 30) {
+    if (racerRecord.fields["Current Position"] == 25) {
       const updatedRacerRecord = await marathonTrack.update(racerRecord.id, {
         Complete: true,
         "Seconds Passed":
