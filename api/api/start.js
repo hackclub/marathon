@@ -60,6 +60,7 @@ export default async function handler(req, res) {
     if (racerRecord.fields["Complete"] == true) {
       res.json({
         user: racerRecord.fields,
+        seconds: racerRecord.fields['Seconds Passed'],
         starting: false,
         complete: true,
       });
