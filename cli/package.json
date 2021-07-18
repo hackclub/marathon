@@ -1,6 +1,6 @@
 {
   "name": "@hackclub/marathon",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "NPX script that powers the Hacker Games Marathon!",
   "main": "index.js",
   "repository": "https://github.com/hackclub/marathon",

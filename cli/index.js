@@ -185,7 +185,7 @@ async function main() {
       chalk.green(
         "\nHey " +
           startResponse.user["Participant Name"] +
-          "! You've already completed the marathon, nice work!\n"
+          `! You've already completed the marathon in ${startResponse.user["Seconds Passed"]} seconds, nice work!\n`
       )
     );
     return;
